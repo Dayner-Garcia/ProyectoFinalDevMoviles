@@ -18,19 +18,19 @@ const Drawer = createDrawerNavigator();
 export default function PublicDrawerNavigator() {
     return (
         <Drawer.Navigator initialRouteName="Inicio">
-            <Drawer.Screen name="Inicio" component={HomeScreen} />
-            <Drawer.Screen name="Historia" component={HistoriaScreen} />
-            <Drawer.Screen name="Servicios" component={ServiciosScreen} />
-            <Drawer.Screen name="Noticias" component={NoticiasListScreen} />
-            <Drawer.Screen name="Videos" component={VideosScreen} />
-            <Drawer.Screen name="Albergues" component={AlberguesListScreen} />
-            <Drawer.Screen name="Mapa de Albergues" component={AlberguesMapScreen} />
-            <Drawer.Screen name="Medidas Preventivas" component={MedidasListScreen} />
-            <Drawer.Screen name="Miembros" component={MiembrosScreen} />
-            <Drawer.Screen name="Voluntariado" component={QuieroSerVoluntarioScreen} />
-            <Drawer.Screen name="Acerca de" component={AcercaDeScreen} />
-            <Drawer.Screen name="Iniciar Sesión" component={LoginScreen} />
-            <Drawer.Screen name="Recover Password" component={RecoverPasswordScreen} />
+            <Drawer.Screen name="Inicio" component={HomeScreen}/>
+            <Drawer.Screen name="Historia" component={HistoriaScreen}/>
+            <Drawer.Screen name="Servicios" component={ServiciosScreen}/>
+            <Drawer.Screen name="Noticias" component={NoticiasListScreen}/>
+            <Drawer.Screen name="Videos" component={VideosScreen}/>
+            <Drawer.Screen name="Albergues" component={AlberguesListScreen}/>
+            <Drawer.Screen name="Mapa de Albergues" component={AlberguesMapScreen}/>
+            <Drawer.Screen name="Medidas Preventivas" component={MedidasListScreen}/>
+            <Drawer.Screen name="Miembros" component={MiembrosScreen}/>
+            <Drawer.Screen name="Quiero ser Voluntariado" component={QuieroSerVoluntarioScreen}/>
+            <Drawer.Screen name="Acerca de" component={AcercaDeScreen}/>
+            <Drawer.Screen name="Iniciar Sesión" component={LoginScreen}/>
+            <Drawer.Screen name="Recuperar Contraseña" component={RecoverPasswordScreen}/>
         </Drawer.Navigator>
     );
 }

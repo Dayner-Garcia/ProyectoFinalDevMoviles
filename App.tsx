@@ -1,5 +1,5 @@
 import './global.css';
-import RootNavigator from "./navigation/RootNavigator";
+import RootNavigator from "./navigation/common/RootNavigator";
 import {AuthProvider} from "./context/AuthContext";
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
