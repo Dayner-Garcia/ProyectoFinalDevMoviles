@@ -1,7 +1,7 @@
-import React = require("react");
+
 import { Text, View, FlatList,Image, StyleSheet,Animated,SafeAreaView,Dimensions} from "react-native";
 import { HomeInfon } from "types/HomeScreen/HomeInfon";
-
+import React from "react";
 
 
 const width = Dimensions.get("window").width;
