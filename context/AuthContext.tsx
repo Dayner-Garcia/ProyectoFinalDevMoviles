@@ -1,81 +1,101 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../api/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
-    id: string;
-    nombre: string;
-    apellido: string;
-    correo: string;
-    telefono: string;
-    token: string;
+  id: string;
+  nombre: string;
+  apellido: string;
+  correo: string;
+  telefono: string;
+  token: string;
 }
 
-interface AuthContextType {
-    isAuthenticated: boolean;
-    user: User | null;
-    login: (cedula: string, clave: string) => Promise<string>;
-    logout: () => void;
+interface AuthContextProps {
+  user: User | null;
+  login: (cedula: string, clave: string) => Promise<string>;
+  logout: () => void;
+  isAuthenticated: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
-    const isAuthenticated = !!user;
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const stored = await AsyncStorage.getItem("user");
-                if (stored) setUser(JSON.parse(stored));
-            } catch (e) {
-                console.error("Error cargando usuario:", e);
-            }
-            setLoading(false);
-        };
-        loadUser();
-    }, []);
-
-    if (loading) return null;
-
-    const login = async (cedula: string, clave: string): Promise<string> => {
-        try {
-            const formData = new URLSearchParams();
-            formData.append("cedula", cedula);
-            formData.append("clave", clave);
-
-            const res = await api.post("iniciar_sesion.php", formData, {
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            });
-
-            if (res.data.exito && res.data.datos) {
-                setUser(res.data.datos);
-                await AsyncStorage.setItem("user", JSON.stringify(res.data.datos));
-                return "success";
-            } else {
-                return res.data.mensaje || "Credenciales incorrectas";
-            }
-        } catch (err) {
-            return "Error de conexión";
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          setUser(JSON.parse(userData));
         }
+      } catch (error) {
+        console.error('Error al cargar el usuario desde AsyncStorage:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const logout = async () => {
-        setUser(null);
-        await AsyncStorage.removeItem("user");
-    };
+    loadUser();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = async (cedula: string, clave: string): Promise<string> => {
+    try {
+      const body = `cedula=${encodeURIComponent(cedula)}&clave=${encodeURIComponent(clave)}`;
+
+      const response = await fetch('https://adamix.net/defensa_civil/def/iniciar_sesion.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body,
+      });
+
+      const data = await response.json();
+
+      if (data.exito) {
+        const user = data.datos;
+        await AsyncStorage.setItem('user', JSON.stringify(user));
+        await AsyncStorage.setItem('token', user.token);
+        console.log('Token recibido:', user.token);
+        setUser(user);
+
+        return 'success';
+      } else {
+        return data.mensaje || 'Credenciales incorrectas';
+      }
+    } catch (error) {
+      console.error('Error en el login:', error);
+      return 'Ocurrió un error al iniciar sesión';
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem('user');
+      await AsyncStorage.removeItem('token');
+      setUser(null);
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+
+  const isAuthenticated = !!user;
+
+  if (loading) return null;
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error("useAuth must be used within AuthProvider");
-    return context;
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth debe ser usado dentro de AuthProvider');
+  }
+  return context;
 };
