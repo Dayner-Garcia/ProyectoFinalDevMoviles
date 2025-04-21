@@ -1,12 +1,30 @@
-import { useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useEffect } from 'react';
+import { Alert } from 'react-native';
 
-export default function LogoutScreen() {
-    const { logout } = useAuth();
+import { useAuth } from '../../context/AuthContext';
 
-    useEffect(() => {
-        logout();
-    }, []);
+export default function LogoutScreen({ navigation }: any) {
+  const { logout } = useAuth();
 
-    return null;
+  useEffect(() => {
+    Alert.alert(
+      'Cerrar Sesión',
+      '¿Estás seguro de que deseas cerrar sesión?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+          onPress: () => navigation.goBack(),
+        },
+        {
+          text: 'Cerrar Sesión',
+          style: 'destructive',
+          onPress: () => logout(),
+        },
+      ],
+      { cancelable: false }
+    );
+  }, []);
+
+  return null;
 }

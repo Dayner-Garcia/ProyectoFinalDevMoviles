@@ -1,3 +1,4 @@
+
 import { Text, View,FlatList,Image,StyleSheet,SafeAreaView,ScrollView,TouchableOpacity} from "react-native";
 import { Notice } from "types/notice/notice";
 import { obtenerNoticias } from "services/noticiasService";
