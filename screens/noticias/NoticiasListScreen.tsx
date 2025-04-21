@@ -1,137 +1,63 @@
-
-import { Text, View,FlatList,Image,StyleSheet,SafeAreaView,ScrollView,TouchableOpacity} from "react-native";
-import { Notice } from "types/notice/notice";
-import { obtenerNoticias } from "services/noticiasService";
-import React,{useState,useEffect} from "react";
+import {FlatList, Image, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
+import {Noticias} from "../../types/Noticias/noticias";
+import {obtenerNoticias} from "services/noticiasService";
+import React, {useEffect, useState} from "react";
 
 export default function NoticiasListScreen() {
-
-    const [noticias,setNoticias] = useState<Notice[]>([]);
-    const [loandig,setLoding] = useState(true)
-    const [expandedId, setExpandedId] = useState<string | null>(null); 
+    const [noticias, setNoticias] = useState<Noticias[]>([]);
+    const [expandedId, setExpandedId] = useState<string | null>(null);
 
     const toggleExpand = (id: string) => {
-        setExpandedId(expandedId === id ? null : id); 
-      };
+        setExpandedId(expandedId === id ? null : id);
+    };
 
-    useEffect(() =>{
-
-        const fetchNoticias = async () =>{
-            try{
+    useEffect(() => {
+        const fetchNoticias = async () => {
+            try {
                 const res = await obtenerNoticias();
                 setNoticias(res.datos);
+            } catch (e) {
+                console.error("error", e);
             }
-            catch(e){
-                console.error("error",e);
-            }
-        }
-    fetchNoticias()});
-    
-    
-    
+        };
+        fetchNoticias();
+    }, []);
+
     return (
-
-        <SafeAreaView style={style.container}>
-
-            <FlatList 
-
+        <SafeAreaView className="flex-1 bg-gray-100">
+            <FlatList
                 data={noticias}
-                keyExtractor={({id},index)=> id.toString()}
-                renderItem={({item}) =>{
-                    return(
-                            <View style = {style.card}>
-                                <TouchableOpacity onPress={()=> toggleExpand(item.id)}>
-                                  
-                                   <View style={style.tituloheader}>
-                                        <Text style={style.titulo}>{item.titulo}</Text>
-                                   </View>
-                                    <Image style={style.foto} source={{uri:item.foto}}/>
-                                   <Text style={{textAlign:'right'}}> Mostrar mas  </Text>
-                                    
-                                
-                                { expandedId === item.id &&(
-                                        <View style={style.contenidotext}>
+                keyExtractor={({id}) => id.toString()}
+                contentContainerStyle={{paddingBottom: 24}}
+                renderItem={({item}) => (
+                    <View className="w-[94%] self-center bg-white rounded-2xl shadow-md mb-4">
+                        <TouchableOpacity onPress={() => toggleExpand(item.id)}>
+                            <View className="bg-[#0D1F2D] rounded-t-2xl border-b-4 border-[#F57C00] px-4 py-5">
+                                <Text className="text-white text-lg font-bold text-center tracking-wider">
+                                    {item.titulo}
+                                </Text>
+                            </View>
 
-                                            <Text>{item.contenido}</Text>
-                                            <Text>{item.fecha_publicacion}</Text>
+                            <Image
+                                source={{uri: item.foto}}
+                                className="w-[250px] h-[150px] self-center my-3 rounded-xl"
+                                resizeMode="cover"
+                            />
 
-                                        </View>
-                                    )
-                                }
-                                </TouchableOpacity>
-                              
-                            </View>)
-                }}
+                            <Text className="text-right text-sm text-orange-500 pr-4">Mostrar más</Text>
 
-  
-
+                            {expandedId === item.id && (
+                                <View className="px-5 py-3">
+                                    <Text className="text-gray-700 text-base text-justify mb-2">{item.contenido}</Text>
+                                    <Text className="text-sm text-gray-500 text-right italic">
+                                        Publicado el {item.fecha_publicacion}
+                                    </Text>
+                                </View>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                )}
             />
-        
         </SafeAreaView>
-     
-
-        
     );
 }
-
-
-const style = StyleSheet.create({
-    container:{ 
-        flex: 1,
-        backgroundColor: "#f9f9f9",
-        justifyContent: "center",},
-    foto:{
-        width:250,
-        height:150,
-        alignSelf:'center',
-        borderRadius:16,
-
-    },
-    card:{
-        alignSelf:"center",
-        margin:10,
-        borderRadius:16,
-        width:'95%',
-        backgroundColor:"#eeeeee",
-        elevation:5
-    },
-    header:{
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        letterSpacing: 1,
-        backgroundColor: '#0D1F2D', 
-        paddingVertical: 20,
-        paddingHorizontal: 16,
-        borderBottomWidth: 4,
-        borderBottomColor: '#F57C00',
-        marginBottom: 20,
-        alignItems: 'center'
-    },
-    tituloheader:{
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        letterSpacing: 1,
-        backgroundColor: '#0D1F2D', 
-        paddingVertical: 20,
-        paddingHorizontal: 16,
-        borderBottomWidth: 4,
-        marginBottom: 20,
-        alignItems: 'center',
-        borderRadius:16,
-
-    },
-    titulo:{
-        color: '#FFFFFF',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        letterSpacing: 1,
-    },
-    contenidotext:{
-       fontSize:14,
-       textAlign:'justify',
-       margin:20,
-    }
-})

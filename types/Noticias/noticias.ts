@@ -1,4 +1,4 @@
-export interface Notice {
+export interface Noticias {
     id:string;
     titulo:string;
     contenido:string;

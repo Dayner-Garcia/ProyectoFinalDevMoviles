@@ -1,9 +1,7 @@
-
 import api from "../api/api";
-import { Notice } from "types/notice/notice";
+import {Noticias} from "../types/Noticias/noticias";
 
-
-export const obtenerNoticias = async (): Promise<{exito: boolean;datos:Notice[];mesaje:string}> => {
+export const obtenerNoticias = async (): Promise<{ exito: boolean; datos: Noticias[]; mesaje: string }> => {
     const response = await api.get('noticias.php');
     return response.data;
 };

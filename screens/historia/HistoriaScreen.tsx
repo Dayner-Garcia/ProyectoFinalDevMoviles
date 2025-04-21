@@ -1,56 +1,49 @@
-import { Text, View,TouchableOpacity,FlatList,StyleSheet, ScrollView,SafeAreaView,Image} from "react-native";
+import {Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import WebView from "react-native-webview";
-import React,{useState} from "react";
-import { media } from "types/historia/historiaInfo";
-
+import React, {useState} from "react";
+import {media} from "types/historia/historiaInfo";
 
 export default function HistoriaScreen() {
+    const [currentIndex, setCurrentIndex] = useState(0);
 
+    const goPrevious = () => {
+        setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
+    };
 
-const [currentIndex, setCurrentIndex] = useState(0); // 0 = video,  0!= imagen
-  
+    const goNext = () => {
+        setCurrentIndex((prev) => (prev + 1) % media.length);
+    };
 
-const goPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
-  };
-
-  const goNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % media.length);
-  };
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-        <View>
-            <ScrollView>
-                <View style={style.container}>
-                    //Botón izquierdo 
-                    <TouchableOpacity onPress={goPrevious} style={style.boton}>
-                    <Text style={{ fontSize: 24 }}>{'<'}</Text>
+        <SafeAreaView className="flex-1 bg-white">
+            <ScrollView contentContainerStyle={{paddingBottom: 40}}>
+                <View className="flex-row items-center justify-center my-5 space-x-3">
+                    <TouchableOpacity onPress={goPrevious} className="p-3 rounded-full bg-orange-100">
+                        <Text className="text-2xl text-orange-600">{'<'}</Text>
                     </TouchableOpacity>
 
-                    // Muestra el video o la imagenes
-                    <View style={{ width: '80%', height: 200,borderRadius:20 }}>
-                    {media[currentIndex].type === 'video' ? (
-                        <WebView
-                        javaScriptEnabled
-                        style={style.video}
-                        source={{ uri: media[currentIndex].uri }}
-                        />
-                    ) : (
-                        <Image
-                        source={media[currentIndex].uri}
-                        style={style.image}
-                        resizeMode="contain"
-                        />
-                    )}
+                    <View className="w-4/5 h-[200px] overflow-hidden rounded-2xl border border-orange-300">
+                        {media[currentIndex].type === 'video' ? (
+                            <WebView
+                                javaScriptEnabled
+                                className="w-full h-full rounded-2xl"
+                                source={{uri: media[currentIndex].uri}}
+                            />
+                        ) : (
+                            <Image
+                                source={media[currentIndex].uri}
+                                className="w-full h-full rounded-2xl"
+                                resizeMode="contain"
+                            />
+                        )}
                     </View>
 
-                    // Botón derecho 
-                    <TouchableOpacity onPress={goNext} style={style.boton}>
-                    <Text style={{ fontSize: 24 }}>{'>'}</Text>
+                    <TouchableOpacity onPress={goNext} className="p-3 rounded-full bg-orange-100">
+                        <Text className="text-2xl text-orange-600">{'>'}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <Text style={style.historia}>
+                <Text className="px-5 text-base leading-6 text-justify text-gray-800">
                     Antes del año 1966, cuando llegaba la temporada de huracanes, un grupo de
                     radioaficionados se reunía en la Cruz Roja para estar atentos por si surgía
                     algún tipo de emergencia, e inmediatamente ponerse a disposición y ayudar en
@@ -75,31 +68,6 @@ const goPrevious = () => {
                     Plaza de la Salud, donde aún permanece.
                 </Text>
             </ScrollView>
-        </View>
-    </SafeAreaView>
-  );
+        </SafeAreaView>
+    );
 }
-const style = StyleSheet.create({
-    container:{ 
-        flexDirection: 'row',
-         alignItems: 'center', 
-         justifyContent: 'center',
-          marginVertical: 20 },
-
-    historia:{ paddingHorizontal: 20,
-         fontSize: 16,
-          textAlign: 'justify' },
-    boton:{ 
-        padding: 10 },
-    video:{
-        width: '100%',
-        height: 200,
-        borderRadius:16,
-        marginVertical:-5,
-        alignSelf:'center'},
-    image:{ 
-        width: '100%', 
-        height: 200,
-         borderRadius:16,
-         marginVertical:-5}
-})
