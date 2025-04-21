@@ -23,7 +23,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView className="flex-1 bg-gray-100">
-            <View className="bg-orange-600 py-6 px-4 shadow-md shadow-orange-400 rounded-b-3xl">
+            <View className="bg-orange-600 py-6 px-4 shadow-md shadow-orange-500 rounded-b-3xl">
                 <Text className="text-white text-2xl font-extrabold text-center uppercase tracking-wide">
                     Defensa Civil RD
                 </Text>

@@ -3,52 +3,47 @@ import AlberguesListScreen from '../../screens/albergues/AlberguesListScreen';
 import AlbergueDetailScreen from '../../screens/albergues/AlbergueDetailScreen';
 import AlberguesMapScreen from '../../screens/albergues/AlberguesMapScreen';
 import { AlberguesStackParamList } from '../../types/navigation/PublicDrawerParamList';
-import { Text } from 'react-native';
+import { Pressable } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator<AlberguesStackParamList>();
 
 export default function AlberguesStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ListaAlbergues"
-        component={AlberguesListScreen}
-        options={{ title: 'Albergues', headerBackVisible: false }}
-      />
-      <Stack.Screen
-        name="MapaAlbergues"
-        component={AlberguesMapScreen}
-        options={{ title: 'Mapa de Albergues' }}
-      />
-      <Stack.Screen
-        name="DetalleAlbergue"
-        component={AlbergueDetailScreen}
-        options={({ route, navigation }) => {
-          const from = route.params?.from;
-          return {
-            title: 'Detalle del Albergue',
-            headerLeft: from
-              ? () => (
-                  <Text
-                    style={{
-                      paddingLeft: 15,
-                      color: '#007AFF',
-                      fontWeight: '600',
-                    }}
-                    onPress={() => {
-                      if (from === 'MapaAlbergues') {
-                        navigation.replace('MapaAlbergues');
-                      } else {
-                        navigation.navigate('ListaAlbergues');
-                      }
-                    }}>
-                    ← Volver
-                  </Text>
-                )
-              : undefined,
-          };
-        }}
-      />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
+            <Stack.Screen
+                name="ListaAlbergues"
+                component={AlberguesListScreen}
+                options={{ title: '🏠 Albergues', headerBackVisible: false }}
+            />
+            <Stack.Screen
+                name="MapaAlbergues"
+                component={AlberguesMapScreen}
+                options={{ title: '🗺️ Mapa de Albergues' }}
+            />
+            <Stack.Screen
+                name="DetalleAlbergue"
+                component={AlbergueDetailScreen}
+                options={({ route, navigation }) => {
+                    const from = route.params?.from;
+                    return {
+                        title: '📍 Detalle del Albergue',
+                        headerLeft: () =>
+                            from ? (
+                                <Pressable
+                                    onPress={() =>
+                                        from === 'MapaAlbergues'
+                                            ? navigation.replace('MapaAlbergues')
+                                            : navigation.navigate('ListaAlbergues')
+                                    }
+                                    style={{ paddingHorizontal: 10 }}
+                                >
+                                    <Icon name="arrow-left" size={24} color="#007AFF" />
+                                </Pressable>
+                            ) : undefined,
+                    };
+                }}
+            />
+        </Stack.Navigator>
+    );
 }

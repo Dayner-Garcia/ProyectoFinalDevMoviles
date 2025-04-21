@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { obtenerAlbergues } from "../../services/alberguesService";
 import { Albergue } from "../../types/albergues/Albergue";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AlberguesStackParamList } from "../../types/navigation/PublicDrawerParamList";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function AlberguesMapScreen() {
     const [albergues, setAlbergues] = useState<Albergue[]>([]);
@@ -24,20 +25,22 @@ export default function AlberguesMapScreen() {
         fetch();
     }, []);
 
-    if (loading) {
-        return (
-            <View className="flex-1 justify-center items-center bg-white">
-                <ActivityIndicator size="large" color="#007AFF" />
-            </View>
-        );
-    }
-
     const initialRegion = {
         latitude: 18.4789,
         longitude: -69.8917,
         latitudeDelta: 0.1,
         longitudeDelta: 0.1,
     };
+
+    if (loading) {
+        return (
+            <View className="flex-1 justify-center items-center bg-white px-6">
+                <Icon name="map-search-outline" size={50} color="#007AFF" />
+                <Text className="text-lg mt-4 text-gray-600">Cargando mapa de albergues...</Text>
+                <ActivityIndicator size="large" color="#007AFF" className="mt-4" />
+            </View>
+        );
+    }
 
     return (
         <MapView style={{ flex: 1 }} initialRegion={initialRegion}>
@@ -50,8 +53,8 @@ export default function AlberguesMapScreen() {
                     <Marker
                         key={index}
                         coordinate={{ latitude: lat, longitude: lng }}
-                        title={a.edificio}
-                        description={a.ciudad}
+                        title={a.nombre || a.edificio}
+                        description={a.ciudad || a.provincia}
                         onPress={() =>
                             navigation.navigate("DetalleAlbergue", {
                                 albergue: a,

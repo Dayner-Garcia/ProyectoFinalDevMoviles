@@ -1,27 +1,26 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-import NoticiaCardStyle from '../styles/NoticiaCardStyle';
-
 interface NoticiaCardProps {
-  titulo: string;
-  contenido: string;
-  imagen: string;
+    titulo: string;
+    contenido: string;
+    imagen: string;
 }
 
-class NoticiaCard extends React.Component<NoticiaCardProps> {
-  render() {
-    const { titulo, contenido, imagen } = this.props;
+const NoticiaCard: React.FC<NoticiaCardProps> = ({ titulo, contenido, imagen }) => {
     return (
-      <TouchableOpacity style={NoticiaCardStyle.card}>
-        <Image source={{ uri: imagen }} style={NoticiaCardStyle.image} />
-        <View style={NoticiaCardStyle.textContainer}>
-          <Text style={NoticiaCardStyle.title}>{titulo}</Text>
-          <Text style={NoticiaCardStyle.content}>{contenido}</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity className="bg-white rounded-2xl shadow-md mb-4 mx-4 overflow-hidden">
+            <Image
+                source={{ uri: imagen }}
+                className="w-full h-48"
+                resizeMode="cover"
+            />
+            <View className="p-4">
+                <Text className="text-lg font-bold text-gray-800">{titulo}</Text>
+                <Text className="text-sm text-gray-600 mt-1">{contenido}</Text>
+            </View>
+        </TouchableOpacity>
     );
-  }
-}
+};
 
 export default NoticiaCard;
