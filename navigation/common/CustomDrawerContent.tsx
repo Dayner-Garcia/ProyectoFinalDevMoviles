@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 
 export default function CustomDrawerContent(props: any) {
     return (
-        <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
+        <DrawerContentScrollView {...props} contentContainerStyle={{ flexGrow: 1 }}>
             <View className="items-center bg-orange-500 py-6 px-4 rounded-b-3xl shadow-lg shadow-black/20">
                 <View className="bg-white p-1 rounded-full mb-2">
                     <Image
