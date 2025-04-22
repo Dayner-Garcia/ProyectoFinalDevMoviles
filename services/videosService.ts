@@ -1,6 +1,5 @@
-import api from "../api/api";
+import {apiFetch} from "../api/api";
 
 export const obtenerVideos = async (): Promise<{exito:boolean;datos:[],mensaje:string}> => {
-    const response = await api.get('videos.php');
-    return response.data;
+    return apiFetch('videos.php');
 };

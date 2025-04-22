@@ -1,23 +1,18 @@
-import api from '../api/api';
+import {apiFetch} from "../api/api";
+import {Linea} from "../types/Noticias/Linea";
 
-export const obtenerNoticias = async () => {
+export const obtenerLineasASeguir = async (): Promise<Linea[]> => {
   try {
-    const response = await api.get('noticias.php');
-    const { exito, datos, mensaje } = response.data;
+    const { exito, datos, mensaje } = await apiFetch('noticias.php');
 
-    if (!exito) {
-      console.warn('Error al obtener noticias:', mensaje);
-      return [];
-    }
-
-    if (!Array.isArray(datos)) {
-      console.warn('El campo datos no es un array:', datos);
+    if (!exito || !Array.isArray(datos)) {
+      console.warn('Error al obtener líneas a seguir:', mensaje || datos);
       return [];
     }
 
     return datos;
   } catch (error) {
-    console.error('Error al realizar la solicitud:', error);
+    console.error('Error al cargar líneas a seguir:', error);
     return [];
   }
 };

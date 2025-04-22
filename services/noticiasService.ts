@@ -1,10 +1,7 @@
+import {Noticias} from "../types/Noticias/noticias";
+import {apiFetch} from "../api/api";
 
-import api from "../api/api";
-import { Notice } from "types/notice/notice";
-
-
-export const obtenerNoticias = async (): Promise<{exito: boolean;datos:Notice[];mesaje:string}> => {
-    const response = await api.get('noticias.php');
-    return response.data;
+export const obtenerNoticias = async (): Promise<{ exito: boolean; datos: Noticias[]; mensaje: string }> => {
+    return apiFetch('noticias.php');
 };
 

@@ -5,11 +5,11 @@ export const media =[
     },
     {
       type: 'image',
-      uri:require("../../assets/ImageScreenHome/Bandera_de_la_Defensa_Civil_Republica_Dominicana.svg.png")
+      uri:require("../../assets/ImageScreenHome/BanderaDefensaCivil.svg.png")
     },
     {
         type:'image',
-        uri:require('../../assets/ImageScreenHome/DEFENSA-CIVIL.jpg')
+        uri:require('../../assets/ImageScreenHome/defensaCivilGente.jpeg')
     }
     
   ];

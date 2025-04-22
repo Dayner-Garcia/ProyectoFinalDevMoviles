@@ -1,7 +1,6 @@
 export interface servicios {
-
-    id:string;
-    nombre:string;
-    descripcion:string;
-    foto:string;
+    id: string;
+    nombre: string;
+    descripcion: string;
+    foto: string;
 }

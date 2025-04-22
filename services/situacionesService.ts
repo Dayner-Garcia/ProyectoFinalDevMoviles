@@ -1,4 +1,4 @@
-import api from '../api/api';
+import {apiFetch} from "../api/api";
 
 export const reportarSituacion = async (datos: {
   titulo: string;
@@ -9,29 +9,26 @@ export const reportarSituacion = async (datos: {
   token: string;
 }) => {
   const formData = new URLSearchParams();
-
   for (const key in datos) {
     formData.append(key, datos[key as keyof typeof datos]);
   }
-
-  const response = await api.post('nueva_situacion.php', formData.toString(), {
+  return apiFetch('nueva_situacion.php', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    body: formData.toString()
   });
-
-  return response.data;
 };
 
 export const getMisSituaciones = async (token: string) => {
-  const body = new URLSearchParams();
-  body.append('token', token);
-
-  const response = await api.post('situaciones.php', body.toString(), {
+  const formData = new URLSearchParams();
+  formData.append('token', token);
+  return apiFetch('situaciones.php', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    body: formData.toString()
   });
-
-  return response.data;
 };

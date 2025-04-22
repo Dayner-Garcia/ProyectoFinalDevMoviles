@@ -1,11 +1,10 @@
-import api from "../api/api";
-import { MedidaPreventiva } from "../types/medidas/MedidaPreventiva";
+import {MedidaPreventiva} from "../types/medidas/MedidaPreventiva";
+import {apiFetch} from "../api/api";
 
 export const obtenerMedidasPreventivas = async (): Promise<{
     exito: boolean;
     datos: MedidaPreventiva[];
     mensaje: string;
 }> => {
-    const response = await api.get("medidas_preventivas.php");
-    return response.data;
+    return apiFetch("medidas_preventivas.php");
 };
