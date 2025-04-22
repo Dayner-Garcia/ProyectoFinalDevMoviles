@@ -1,8 +1,8 @@
 import {FlatList, SafeAreaView, Text, View} from "react-native";
-import {videos} from "types/Videos/videos";
-import {obtenerVideos} from "services/videosService";
 import React, {useEffect, useState} from "react";
 import WebView from "react-native-webview";
+import { videos } from "../../types/Videos/videos";
+import { obtenerVideos } from "../../services/videosService";
 
 export default function VideosScreen() {
     const [video, setVideos] = useState<videos[]>([]);

@@ -1,7 +1,7 @@
 import {FlatList, Image, SafeAreaView, Text, View} from "react-native";
-import {obtenerServicios} from "services/serviciosService";
 import {servicios} from "types/servicios/servicios";
 import React, {useEffect, useState} from "react";
+import { obtenerServicios } from "../../services/serviciosService";
 
 export default function ServiciosScreen() {
     const [Servicio, setServicios] = useState<servicios[]>([]);

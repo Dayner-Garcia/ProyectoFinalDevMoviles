@@ -1,7 +1,7 @@
 import {FlatList, Image, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
-import {Noticias} from "../../types/Noticias/noticias";
-import {obtenerNoticias} from "services/noticiasService";
 import React, {useEffect, useState} from "react";
+import { Noticias } from "../../types/Noticias/noticias";
+import { obtenerNoticias } from "../../services/noticiasService";
 
 export default function NoticiasListScreen() {
     const [noticias, setNoticias] = useState<Noticias[]>([]);

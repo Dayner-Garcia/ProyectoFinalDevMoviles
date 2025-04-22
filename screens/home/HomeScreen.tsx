@@ -1,6 +1,6 @@
 import {Animated, Dimensions, FlatList, Image, SafeAreaView, Text, View} from "react-native";
-import {HomeInfon} from "types/HomeScreen/HomeInfon";
 import React, {useEffect, useRef, useState} from "react";
+import { HomeInfon } from "../../types/HomeScreen/HomeInfon";
 
 const width = Dimensions.get("window").width;
 const ANCHO_CONTENEDOR = width * 0.88;

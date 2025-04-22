@@ -1,7 +1,7 @@
 import {Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import WebView from "react-native-webview";
 import React, {useState} from "react";
-import {media} from "types/historia/historiaInfo";
+import { media } from "../../types/historia/historiaInfo";
 
 export default function HistoriaScreen() {
     const [currentIndex, setCurrentIndex] = useState(0);
