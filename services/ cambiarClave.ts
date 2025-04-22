@@ -1,4 +1,4 @@
-import api from '../api/api';
+import {apiFetch} from "../api/api";
 
 export const cambiarClave = async (datos: {
   token: string;
@@ -6,16 +6,15 @@ export const cambiarClave = async (datos: {
   clave_nueva: string;
 }) => {
   const formData = new URLSearchParams();
-
   for (const key in datos) {
     formData.append(key, datos[key as keyof typeof datos]);
   }
-
-  const response = await api.post('cambiar_clave.php', formData.toString(), {
+  const response = await apiFetch('cambiar_clave.php', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    body: formData.toString(),
   });
-
-  return response.data;
+  return response;
 };

@@ -1,10 +1,16 @@
-import axios from 'axios';
+const BASE_URL = 'https://adamix.net/defensa_civil/def/';
 
-const api = axios.create({
-    baseURL: 'https://adamix.net/defensa_civil/def/',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+export async function apiFetch(endpoint: string, options: RequestInit = {}) {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        ...options,
+    });
 
-export default api;
+    if (!response.ok) {
+        throw new Error(`Error ${response.status}`);
+    }
+
+    return response.json();
+}

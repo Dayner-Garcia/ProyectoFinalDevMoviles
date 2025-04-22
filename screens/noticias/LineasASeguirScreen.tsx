@@ -1,7 +1,6 @@
-
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import LineaCard from '../../components/LineaCard';
-import { obtenerNoticias } from '../../services/lineasASeguirService';
+import { obtenerLineasASeguir } from "../../services/lineasASeguirService";
 import {useEffect, useState} from "react";
 
 interface Linea {
@@ -19,7 +18,7 @@ const LineasASeguirScreen: React.FC = () => {
     const cargarLineas = async () => {
         setLoading(true);
         try {
-            const data = await obtenerNoticias();
+            const data = await obtenerLineasASeguir();
             setLineas(data);
         } catch (error) {
             console.error('Error cargando noticias:', error);
